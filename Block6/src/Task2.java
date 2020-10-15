@@ -2,35 +2,38 @@ public class Task2
 {
 	public static void main(String[] args) 
 	{
-		System.out.println(translateWord("Apple"));
+		System.out.println(translateWord("button"));
+		System.out.println(translateSentence("Do you think it is going to rain today?"));
 	}
-	private static String translateWord(String Word)
-	{
-		if (Word.equals("")) return "";
-		
-		char[] charArray = Word.toCharArray();
-		String cons = "BCDFGHJKLMNPQRSTVWXZ";
-		String vowl = "AEIOUY";
-		String a = "";
-		String b = "";
-		boolean vowel = false;
-		for(char c : charArray)
-		{
-			if(cons.toLowerCase().contains(String.valueOf(c).toLowerCase()) == true)
-			{
-				if(vowel == false) a = a + c;
-				else b = b + c;
-			}
-			else
-			{
-				vowel = true;
-				b = b + c ;
-			}
-		}
-		b = b + a;
-		if(vowl.toLowerCase().contains(String.valueOf(b.toCharArray()[0]).toLowerCase()) == true )
-			b = b + "yay";
-		else b = b + "ay";
-		return b;
-	}
+	 public static String translateWord(String Word) {
+	        if (Word.length() == 0) 
+	            return "";
+	        
+	        String Vowels = "aeouiAEOUI";
+	        String Marks = ";!?,.-_";
+	        
+	        if (Vowels.indexOf(Word.charAt(0)) != -1) 
+	            return Word + "yay";
+
+	        for (int i = 0; i < Word.length(); i++) 
+	        {
+	            if (Vowels.indexOf(Word.charAt(i)) != -1 && Marks.indexOf(Word.charAt(Word.length() - 1)) != -1) 
+	                return Word.substring(i, Word.length() - 1) + Word.substring(0, i)+ "ay" + Word.substring(Word.length() - 1);
+	            else if (Vowels.indexOf(Word.charAt(i)) != -1) 
+	                return Word.substring(i) + Word.substring(0, i) + "ay";
+	        }
+
+	        return Word;
+	    }
+
+	    public static String translateSentence(String Text) 
+	    {
+	        String[] SplitedText = Text.split(" ");
+	        StringBuilder res = new StringBuilder();
+
+	        for (String Word: SplitedText) 
+	            res.append(translateWord(Word)+" ");
+
+	        return res.toString();
+	    }
 }
